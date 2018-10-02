@@ -1,4 +1,6 @@
 class RecipesController < ApplicationController
+  before_action :authenticate_user!
+
   def show
     @recipe = Recipe.find(params[:id])
   end
@@ -15,6 +17,10 @@ class RecipesController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def index
+    @recipes = Recipe.all
   end
 
   private
