@@ -10,6 +10,8 @@ class UsersController < ApplicationController
     unless @user == current_user
       redirect_to root_path, :alert => "Access denied."
     end
+
+    @recipes = Recipe.where(:user_id => params[:id]).reverse
   end
 
 end

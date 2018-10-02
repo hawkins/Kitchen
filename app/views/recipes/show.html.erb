@@ -10,7 +10,7 @@
 <i>last updated</i>:
 <%= @recipe.updated_at %>
 </p>
-<p>Created by <%= User.find(@recipe.user_id).name %>
+<p>Created by <%= link_to User.find(@recipe.user_id).name, User.find(@recipe.user_id) %>
  
 <p>
 <strong>Instructions:</strong>
