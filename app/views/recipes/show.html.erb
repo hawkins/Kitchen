@@ -1,0 +1,38 @@
+<p>
+<a href="/recipes/<%= @recipe.id %>">
+  <strong>Title:</strong></a>
+  <%= @recipe.title %>
+</p>
+
+<p>
+<i>Created at</i>:
+<%= @recipe.created_at %>,
+<i>last updated</i>:
+<%= @recipe.updated_at %>
+</p>
+<p>Created by <%= User.find(@recipe.user_id).name %>
+ 
+<p>
+<strong>Instructions:</strong>
+<ol>
+  <% @recipe.content.split("\n").each do |line| %>
+    <li><%= line %></li>
+  <% end %>
+</ol>
+</p>
+
+<p>
+  <strong>Ingredients:</strong>
+  <ul>
+    <% @recipe.ingredients.split("\n").each do |ing| %>
+      <li>
+        <strong><%= ing.split(", ", 2)[0] %></strong>
+        <% if ing.include? ", " %>
+          <span>
+            (<%= ing.split(", ", 2)[1] %>)
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</p>
