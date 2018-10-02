@@ -23,6 +23,26 @@ class RecipesController < ApplicationController
     @recipes = Recipe.all
   end
 
+  def search
+    @recipes = []
+    @recipes = search_api if params.include? :term
+  end
+
+  def search_api
+    limit = params[:limit] || 10
+    page = params[:page] || 1
+    offset = ((page - 1) * limit) || 0
+    term = params[:term] || nil
+    Recipe.where('title LIKE ? '\
+                 'OR content LIKE ? '\
+                 'OR ingredients LIKE ? ',
+                 "%#{term}%",
+                 "%#{term}%",
+                 "%#{term}%")
+                   .limit(limit)
+                   .offset(offset) if term
+  end
+
   private
   def recipe_params
     params.require(:recipe).merge!(user_id: current_user.id, created_at: Time.now, updated_at: Time.now).permit(:title, :content, :ingredients, :updated_at, :created_at, :user_id)
