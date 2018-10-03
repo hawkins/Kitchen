@@ -1,7 +1,7 @@
 <p>
 <a href="/recipes/<%= @recipe.id %>">
   <strong>Title:</strong></a>
-  <%= @recipe.title %>
+<%= @recipe.title %>
 </p>
 
 <p>
@@ -11,7 +11,12 @@
 <%= @recipe.updated_at %>
 </p>
 <p>Created by <%= link_to User.find(@recipe.user_id).name, User.find(@recipe.user_id) %>
- 
+<% if current_user %>
+  <% if current_user.id == @recipe.user_id %>
+    <%= link_to 'edit', edit_recipe_path(@recipe) %>
+  <% end %>
+<% end %>
+
 <p>
 <strong>Instructions:</strong>
 <ol>
@@ -22,17 +27,17 @@
 </p>
 
 <p>
-  <strong>Ingredients:</strong>
-  <ul>
-    <% @recipe.ingredients.split("\n").each do |ing| %>
-      <li>
-        <strong><%= ing.split(", ", 2)[0] %></strong>
-        <% if ing.include? ", " %>
-          <span>
-            (<%= ing.split(", ", 2)[1] %>)
-          </span>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+<strong>Ingredients:</strong>
+<ul>
+  <% @recipe.ingredients.split("\n").each do |ing| %>
+    <li>
+      <strong><%= ing.split(", ", 2)[0] %></strong>
+      <% if ing.include? ", " %>
+        <span>
+          (<%= ing.split(", ", 2)[1] %>)
+        </span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
 </p>

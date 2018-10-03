@@ -1,0 +1,24 @@
+<h1>Edit Recipe</h1>
+
+<%= form_with model: @recipe, local: true do |form| %>
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= form.label :content %><br>
+    <%= form.text_area :content %>
+  </p>
+  
+  <p>
+    <%= form.label :ingredients %><br>
+    <%= form.text_area :ingredients %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'Cancel', recipes_path %>
