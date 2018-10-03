@@ -6,7 +6,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv::Railtie.load
+unless Rails.env.production?
+  Dotenv::Railtie.load
+end
 
 module Kitchen
   class Application < Rails::Application
