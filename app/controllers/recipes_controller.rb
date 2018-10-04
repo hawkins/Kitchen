@@ -1,5 +1,5 @@
 class RecipesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show, :index, :search, :search_api]
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -61,6 +61,6 @@ class RecipesController < ApplicationController
 
   private
   def recipe_params
-    params.require(:recipe).merge!(user_id: current_user.id, created_at: Time.now, updated_at: Time.now).permit(:title, :content, :ingredients, :updated_at, :created_at, :user_id)
+    params.require(:recipe).merge!(user_id: current_user.id, created_at: Time.now, updated_at: Time.now).permit(:title, :content, :ingredients, :updated_at, :created_at, :user_id, :source)
   end
 end

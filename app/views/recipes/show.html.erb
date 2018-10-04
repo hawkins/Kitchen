@@ -1,8 +1,6 @@
-<p>
-<a href="/recipes/<%= @recipe.id %>">
-  <strong>Title:</strong></a>
-<%= @recipe.title %>
-</p>
+<h3>
+  <%= link_to @recipe.title, @recipe %>
+</h3>
 
 <p>
 <i>Created at</i>:
@@ -11,12 +9,13 @@
 <%= @recipe.updated_at %>
 </p>
 <p>Created by <%= link_to User.find(@recipe.user_id).name, User.find(@recipe.user_id) %>
+<p>
 <% if current_user %>
   <% if current_user.id == @recipe.user_id %>
     <%= link_to 'edit', edit_recipe_path(@recipe) %>
   <% end %>
 <% end %>
-
+</p>
 <p>
 <strong>Instructions:</strong>
 <ol>
@@ -41,3 +40,5 @@
   <% end %>
 </ul>
 </p>
+
+<%= link_to('View source', @recipe.source) if @recipe.source %>
