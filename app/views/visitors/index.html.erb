@@ -1,8 +1,32 @@
-<h3>Welcome</h3>
+<h3>Welcome to Kitchen</h3>
 <form action="/recipes/search">
   <label>Search for Recipes</label>
   <input type="text" name="term"/>
   <input type="submit" value="Search"/>
 </form>
-<p><%= link_to 'Users:', users_path %> <%= User.count %> registered</p>
-<p><%= link_to 'Recipes:', recipes_path %> <%= Recipe.count %> listed</p>
+
+<div class="column">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Newest Recipes
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recipes.each do |recipe| %>
+        <tr>
+          <%= render recipe %>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          ... <%= link_to 'View all ' + Recipe.count.to_s + ' recipes', recipes_path %>
+      </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

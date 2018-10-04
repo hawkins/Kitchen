@@ -1,10 +1,13 @@
-<h3>User</h3>
-<p>Name: <%= @user.name if @user.name %></p>
+<h3><%= @user.name %></h3>
 <p>Email: <%= @user.email if @user.email %></p>
+
+<%= link_to 'Post New Recipe', 'recipes/new' %>
 
 <h4>Recipes</h4>
 <ul>
   <% @recipes.each do |recipe| %>
-    <li><%= link_to recipe.title, recipe %> from <%= recipe.created_at %> </li>
+    <li>
+      <%= link_to recipe.title, recipe %> from <%= recipe.created_at %>
+    </li>
   <% end %>
 </ul>

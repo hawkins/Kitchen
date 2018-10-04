@@ -1,17 +1,13 @@
-<div class="container">
-  <div class="row">
-    <h3>Recipes</h3>
-    <%= link_to 'Post New Recipe', 'recipes/new' %>
-    <div class="column">
-      <table class="table">
-        <tbody>
-          <% @recipes.each do |recipe| %>
-            <tr>
-              <%= render recipe %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<h3>Recipes</h3>
+<%= link_to 'Post New Recipe', 'recipes/new' %>
+<div class="column">
+  <table class="table">
+    <tbody>
+      <% @recipes.each do |recipe| %>
+        <tr>
+          <%= render recipe %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
