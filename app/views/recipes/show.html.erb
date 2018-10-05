@@ -30,10 +30,10 @@
 <ul>
   <% @recipe.ingredients.split("\n").each do |ing| %>
     <li>
-      <strong><%= ing.split(", ", 2)[0] %></strong>
+      <strong><%= ing.split(", ", 2)[0].strip %></strong>
       <% if ing.include? ", " %>
         <span>
-          (<%= ing.split(", ", 2)[1] %>)
+          (<%= ing.split(", ", 2)[1].strip %>)
         </span>
       <% end %>
     </li>
