@@ -49,12 +49,12 @@ class RecipesController < ApplicationController
     page = params[:page] || 1
     offset = ((page - 1) * limit) || 0
     term = params[:term] || nil
-    Recipe.where('title LIKE ? '\
-                 'OR content LIKE ? '\
-                 'OR ingredients LIKE ? ',
-                 "%#{term}%",
-                 "%#{term}%",
-                 "%#{term}%")
+    Recipe.where('lower(title) LIKE ? '\
+                 'OR lower(content) LIKE ? '\
+                 'OR lower(ingredients) LIKE ? ',
+                 "%#{term.downcase}%",
+                 "%#{term.downcase}%",
+                 "%#{term.downcase}%")
                    .limit(limit)
                    .offset(offset) if term
   end
