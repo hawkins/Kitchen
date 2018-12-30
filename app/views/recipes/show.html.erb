@@ -4,28 +4,39 @@
 
 <p>
 <i>Created at</i>:
-<%= @recipe.created_at %>,
-<i>last updated</i>:
-<%= @recipe.updated_at %>
-</p>
-<p>Created by <%= link_to User.find(@recipe.user_id).name, User.find(@recipe.user_id) %>
-<p>
-<% if current_user %>
-  <% if current_user.id == @recipe.user_id %>
-    <%= link_to 'edit', edit_recipe_path(@recipe) %>
-  <% end %>
+<%= @recipe.created_at %>
+<% if @recipe.created_at != @recipe.updated_at %>
+  , <i>last updated</i>: <%= @recipe.updated_at %>
 <% end %>
 </p>
+
 <p>
+  Created by <%= link_to User.find(@recipe.user_id).name, User.find(@recipe.user_id) %>
+  <% if current_user and current_user.id == @recipe.user_id %>
+    (<%= link_to 'edit', edit_recipe_path(@recipe) %>)
+  <% end %>
+</p>
+
+<% if !@recipe.tags.nil? and !@recipe.tags.empty? %>
+  <div style="margin-bottom: 1rem;">
+    <strong>Tags:</strong>
+    <% @recipe.tags.split(",").each do |tag| %>
+      <!-- TODO: Make these links to a search by that tag -->
+      <span style="background-color: #c3c3c3; padding: .2em .6em .3em; border-radius: .25em"><%= tag.strip %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<div>
 <strong>Instructions:</strong>
 <ol>
   <% @recipe.content.split("\n").each do |line| %>
     <li><%= line %></li>
   <% end %>
 </ol>
-</p>
+</div>
 
-<p>
+<div>
 <strong>Ingredients:</strong>
 <ul>
   <% @recipe.ingredients.split("\n").each do |ing| %>
@@ -39,6 +50,8 @@
     </li>
   <% end %>
 </ul>
-</p>
+</div>
 
-<%= link_to('View source', @recipe.source) if @recipe.source %>
+<% unless @recipe.source.nil? or @recipe.source.empty? %>
+  <%= link_to('View source', @recipe.source) if @recipe.source %>
+<% end %>

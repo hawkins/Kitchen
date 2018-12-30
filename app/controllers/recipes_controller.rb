@@ -47,6 +47,7 @@ class RecipesController < ApplicationController
   end
 
   def search_api
+    # TODO: Add tags here
     limit = params[:limit] || 10
     page = params[:page] || 1
     offset = ((page - 1) * limit) || 0
@@ -84,6 +85,7 @@ class RecipesController < ApplicationController
               :updated_at,
               :created_at,
               :user_id,
+              :tags,
               :source)
   end
 end
