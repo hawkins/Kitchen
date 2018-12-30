@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class RecipesController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index, :search, :search_api]
+  before_action :authenticate_user!, except: %i[show index search search_api]
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -49,18 +51,39 @@ class RecipesController < ApplicationController
     page = params[:page] || 1
     offset = ((page - 1) * limit) || 0
     term = params[:term] || nil
-    Recipe.where('lower(title) LIKE ? '\
-                 'OR lower(content) LIKE ? '\
-                 'OR lower(ingredients) LIKE ? ',
-                 "%#{term.downcase}%",
-                 "%#{term.downcase}%",
-                 "%#{term.downcase}%")
-                   .limit(limit)
-                   .offset(offset) if term
+    if term
+      Recipe.where('lower(title) LIKE ? '\
+                   'OR lower(content) LIKE ? '\
+                   'OR lower(ingredients) LIKE ? ',
+                   "%#{term.downcase}%",
+                   "%#{term.downcase}%",
+                   "%#{term.downcase}%")
+            .limit(limit)
+            .offset(offset)
+    end
   end
 
   private
+
   def recipe_params
-    params.require(:recipe).merge!(user_id: current_user.id, created_at: Time.now, updated_at: Time.now).permit(:title, :content, :ingredients, :updated_at, :created_at, :user_id, :source)
+    created_at = if !@recipe.nil?
+                   puts 'existing recipe'
+                   @recipe.created_at
+                 else
+                   puts 'new recipe'
+                   Time.now
+                 end
+
+    params.require(:recipe)
+      .merge!(user_id: current_user.id,
+              created_at: created_at,
+              updated_at: Time.now)
+      .permit(:title,
+              :content,
+              :ingredients,
+              :updated_at,
+              :created_at,
+              :user_id,
+              :source)
   end
 end
