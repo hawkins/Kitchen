@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RecipesController < ApplicationController
-  before_action :authenticate_user!, except: %i[show index search search_api]
+  before_action :authenticate_user!, except: %i[show index search search_api search_tags_api]
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -44,10 +44,10 @@ class RecipesController < ApplicationController
   def search
     @recipes = []
     @recipes = search_api if params.include? :term
+    @recipes = search_tags_api if params.include? :tag
   end
 
   def search_api
-    # TODO: Add tags here
     limit = params[:limit] || 10
     page = params[:page] || 1
     offset = ((page - 1) * limit) || 0
@@ -55,10 +55,24 @@ class RecipesController < ApplicationController
     if term
       Recipe.where('lower(title) LIKE ? '\
                    'OR lower(content) LIKE ? '\
-                   'OR lower(ingredients) LIKE ? ',
+                   'OR lower(ingredients) LIKE ? '\
+                   'OR lower(tags) LIKE ?',
+                   "%#{term.downcase}%",
                    "%#{term.downcase}%",
                    "%#{term.downcase}%",
                    "%#{term.downcase}%")
+            .limit(limit)
+            .offset(offset)
+    end
+  end
+
+  def search_tags_api
+    limit = params[:limit] || 10
+    page = params[:page] || 1
+    offset = ((page - 1) * limit) || 0
+    term = params[:tag] || nil
+    if term
+      Recipe.where('lower(tags) LIKE ? ', "%#{term.downcase}%")
             .limit(limit)
             .offset(offset)
     end
