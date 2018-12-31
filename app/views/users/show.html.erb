@@ -7,7 +7,7 @@
 <ul>
   <% @recipes.each do |recipe| %>
     <li>
-      <%= link_to recipe.title, recipe %> from <%= recipe.created_at %>
+      <%= link_to recipe.title, recipe %> from <%= recipe.created_at.strftime("%b %e %Y at %I:%M %p") %>
     </li>
   <% end %>
 </ul>

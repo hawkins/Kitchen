@@ -3,10 +3,10 @@
 </h3>
 
 <p>
-<i>Created at</i>:
-<%= @recipe.created_at %>
-<% if @recipe.created_at != @recipe.updated_at %>
-  , <i>last updated</i>: <%= @recipe.updated_at %>
+<i>Created on</i>
+<%= @recipe.created_at.strftime("%b %e %Y at %I:%M %p") %><% if @recipe.updated_at - @recipe.created_at > 600 %>,
+  <i>last updated on</i>
+  <%= @recipe.updated_at.strftime("%b %e %Y at %I:%M %p") %>
 <% end %>
 </p>
 
