@@ -22,7 +22,7 @@
     <strong>Tags:</strong>
     <% @recipe.tags.split(",").each do |tag| %>
       <!-- TODO: URL encode this tag -->
-      <a class="tag" href="/recipes/search?tag=<%= tag.strip %>"><%= tag.strip %></a>
+      <a class="tag" style="background-color: <%= generate_tag_color(tag.strip) %>" href="/recipes/search?tag=<%= tag.strip %>"><%= tag.strip %></a>
     <% end %>
   </div>
 <% end %>
@@ -54,7 +54,6 @@
 
 <style>
 .tag {
-  background-color: #c3c3c3;
   padding: .2em .6em .3em;
   border-radius: .25em;
 }

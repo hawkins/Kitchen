@@ -78,6 +78,16 @@ class RecipesController < ApplicationController
     end
   end
 
+  def generate_tag_color(tag)
+    seed = tag.bytes.map(&:to_i).reduce(0, :+)
+    r = Random.new(seed)
+    red = (r.rand * 255).to_i
+    green = (r.rand * 255).to_i
+    blue = (r.rand * 255).to_i
+    "#%02X%02X%02X" % [red, green, blue]
+  end
+  helper_method :generate_tag_color
+
   private
 
   def recipe_params
