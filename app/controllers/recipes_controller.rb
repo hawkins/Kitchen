@@ -13,10 +13,10 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    tags = @recipe.tags.split(",")
+    tags = @recipe.tags.split(',')
     tags.map!(&:strip)
     tags.uniq!
-    @recipe.tags = tags.join(",")
+    @recipe.tags = tags.join(',')
 
     if @recipe.save
       redirect_to @recipe
@@ -83,6 +83,74 @@ class RecipesController < ApplicationController
     end
   end
 
+  def generate_tag_css(tag)
+    bg_colors = generate_tag_color tag
+    background_color = format('#%02X%02X%02X', bg_colors[0], bg_colors[1], bg_colors[2])
+
+    fg_colors = generate_tag_text_color bg_colors
+    color = format('#%02X%02X%02X', fg_colors[0], fg_colors[1], fg_colors[2])
+
+    "color: #{color};\nbackground-color: #{background_color};"
+  end
+  helper_method :generate_tag_css
+
+  private
+
+  def recipe_params
+    created_at = if !@recipe.nil?
+                   @recipe.created_at
+                 else
+                   Time.now
+                 end
+
+    params.require(:recipe)
+          .merge!(user_id: current_user.id,
+                  created_at: created_at,
+                  updated_at: Time.now)
+          .permit(:title,
+                  :content,
+                  :ingredients,
+                  :updated_at,
+                  :created_at,
+                  :user_id,
+                  :tags,
+                  :source)
+  end
+
+  def get_specific_tag_color(tag)
+    case tag.downcase
+    when 'christmas'
+      [154, 205, 50]
+    when 'easy'
+      [50, 205, 50]
+    when 'medium'
+      [255, 165, 0]
+    when 'hard'
+      [255, 0, 0]
+    end
+  end
+
+  def color_high(random)
+    (random.rand * 64) + 192
+  end
+
+  def color_middle(random)
+    (random.rand * 64) + 128
+  end
+
+  def color_low(random)
+    random.rand * 64
+  end
+
+  def color_high_low(random)
+    high_bit = (random.rand + 0.5).to_i
+    random.rand * 64 + (128 * high_bit)
+  end
+
+  def color_random(random)
+    random.rand * 256
+  end
+
   def generate_tag_color(tag)
     # Short-circuit custom tag names
     specific = get_specific_tag_color tag
@@ -121,64 +189,16 @@ class RecipesController < ApplicationController
     colors = [a, b, c]
     colors.shuffle!(random: r)
 
-    format('#%02X%02X%02X', colors[0], colors[1], colors[2])
-  end
-  helper_method :generate_tag_color
-
-  private
-
-  def recipe_params
-    created_at = if !@recipe.nil?
-                   @recipe.created_at
-                 else
-                   Time.now
-                 end
-
-    params.require(:recipe)
-          .merge!(user_id: current_user.id,
-                  created_at: created_at,
-                  updated_at: Time.now)
-          .permit(:title,
-                  :content,
-                  :ingredients,
-                  :updated_at,
-                  :created_at,
-                  :user_id,
-                  :tags,
-                  :source)
+    colors
   end
 
-  def get_specific_tag_color(tag)
-    case tag.downcase
-    when 'christmas'
-      'yellowgreen'
-    when 'easy'
-      'limegreen'
-    when 'medium'
-      'orange'
-    when 'hard'
-      'red'
+  def generate_tag_text_color(colors)
+    # See http://www.w3.org/TR/AERT#color-contrast
+    o = ((((colors[0] * 299) + (colors[1] * 587) + (colors[2] * 114)) / 1000) + 0.5).to_i
+    if o > 125
+      [0, 0, 0]
+    else
+      [255, 255, 255]
     end
-  end
-
-  def color_high(random)
-    (random.rand * 64) + 192
-  end
-
-  def color_middle(random)
-    (random.rand * 64) + 128
-  end
-
-  def color_low(random)
-    random.rand * 64
-  end
-
-  def color_high_low(random)
-    high_bit = (random.rand + 0.5).to_i
-    random.rand * 64 + (128 * high_bit)
-  end
-
-  def color_random(random)
-    random.rand * 256
   end
 end

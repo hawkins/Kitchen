@@ -23,7 +23,7 @@
     <% @recipe.tags.split(",").each do |tag| %>
       <a
         class="tag"
-        style="background-color: <%= generate_tag_color(tag.strip) %>"
+        style="<%= generate_tag_css(tag.strip) %>"
         href="/recipes/search?tag=<%= URI.encode(tag.strip) %>">
         <%= tag.strip %>
       </a>
