@@ -13,6 +13,10 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
+    tags = @recipe.tags.split(",")
+    tags.map!(&:strip)
+    tags.uniq!
+    @recipe.tags = tags.join(",")
 
     if @recipe.save
       redirect_to @recipe
@@ -71,6 +75,7 @@ class RecipesController < ApplicationController
     page = params[:page] || 1
     offset = ((page - 1) * limit) || 0
     term = params[:tag] || nil
+    term = URI.decode term
     if term
       Recipe.where('lower(tags) LIKE ? ', "%#{term.downcase}%")
             .limit(limit)

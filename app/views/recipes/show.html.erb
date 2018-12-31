@@ -20,9 +20,13 @@
 <% if !@recipe.tags.nil? and !@recipe.tags.empty? %>
   <div style="margin-bottom: 1rem;">
     <strong>Tags:</strong>
-    <!-- TODO: URL encode these tags -->
     <% @recipe.tags.split(",").each do |tag| %>
-      <a class="tag" style="background-color: <%= generate_tag_color(tag.strip) %>" href="/recipes/search?tag=<%= tag.strip %>"><%= tag.strip %></a>
+      <a
+        class="tag"
+        style="background-color: <%= generate_tag_color(tag.strip) %>"
+        href="/recipes/search?tag=<%= URI.encode(tag.strip) %>">
+        <%= tag.strip %>
+      </a>
     <% end %>
   </div>
 <% end %>
@@ -54,9 +58,12 @@
 
 <style>
 .tag {
+  /* Background */
   padding: .2em .6em .3em;
   border-radius: .25em;
-  line-height: 2;
+  /* Spacing */
+  line-height: 1.8;
+  margin: 0 .1em;
 }
 </style>
 
