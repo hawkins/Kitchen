@@ -82,24 +82,22 @@ class RecipesController < ApplicationController
 
   def recipe_params
     created_at = if !@recipe.nil?
-                   puts 'existing recipe'
                    @recipe.created_at
                  else
-                   puts 'new recipe'
                    Time.now
                  end
 
     params.require(:recipe)
-      .merge!(user_id: current_user.id,
-              created_at: created_at,
-              updated_at: Time.now)
-      .permit(:title,
-              :content,
-              :ingredients,
-              :updated_at,
-              :created_at,
-              :user_id,
-              :tags,
-              :source)
+          .merge!(user_id: current_user.id,
+                  created_at: created_at,
+                  updated_at: Time.now)
+          .permit(:title,
+                  :content,
+                  :ingredients,
+                  :updated_at,
+                  :created_at,
+                  :user_id,
+                  :tags,
+                  :source)
   end
 end
