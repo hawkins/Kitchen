@@ -5,28 +5,26 @@
   <input type="submit" value="Search"/>
 </form>
 <%= link_to 'Post new Recipe', new_recipe_path %>
-<div class="column">
-  <table class="table">
-    <thead>
+<table class="table column">
+  <thead>
+    <tr>
+      <th>
+        Newest Recipes
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @recipes.each do |recipe| %>
       <tr>
-        <th>
-          Newest Recipes
-        </th>
+        <%= render recipe %>
       </tr>
-    </thead>
-    <tbody>
-      <% @recipes.each do |recipe| %>
-        <tr>
-          <%= render recipe %>
-        </tr>
-      <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td>
-          ... <%= link_to 'View all ' + Recipe.count.to_s + ' recipes', recipes_path %>
-      </td>
-      </tr>
-    </tfoot>
-  </table>
-</div>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>
+        ... <%= link_to 'View all ' + Recipe.count.to_s + ' recipes', recipes_path %>
+    </td>
+    </tr>
+  </tfoot>
+</table>
