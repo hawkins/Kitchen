@@ -1,7 +1,12 @@
 <h3><%= @user.name %></h3>
-<p>Email: <%= @user.email if @user.email %></p>
 
-<%= link_to 'Post New Recipe', 'recipes/new' %>
+<% if current_user and current_user.id == @user.id %>
+  <%= link_to 'Edit account', edit_user_registration_path %>
+
+  <p>Email: <%= @user.email if @user.email %></p>
+
+  <%= link_to 'Post New Recipe', 'recipes/new' %>
+<% end %>
 
 <h4>Recipes</h4>
 <ul>
