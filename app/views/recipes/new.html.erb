@@ -1,35 +1,3 @@
-<%= form_with scope: :recipe, url: recipes_path, local: true do |form| %>
-  <p>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
-  </p>
+<h1>New Recipe</h1>
 
-  <p>
-    <%= form.label :ingredients %><br>
-    <%= form.text_area :ingredients %>
-  </p>
-
-  <p>
-    <%= form.label :content %><br>
-    <%= form.text_area :content %>
-  </p>
-
-  <p>
-    <%= form.label :notes %><br>
-    <%= form.text_area :notes %>
-  <p>
-
-  <p>
-    <%= form.label :tags %><br>
-    <%= form.text_field :tags %>
-  </p>
-
-  <p>
-    <%= form.label :source %><br>
-    <%= form.text_area :source %>
-  </p>
-
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+<%= render "editform.html.erb" %>

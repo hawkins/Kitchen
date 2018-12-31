@@ -1,0 +1,47 @@
+<%= form_with model: @recipe, local: true, class: "form" do |form| %>
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+
+  <p>
+    <%= form.label :ingredients %><br>
+    <%= form.text_area :ingredients %>
+  </p>
+
+  <p>
+    <%= form.label :content %><br>
+    <%= form.text_area :content %>
+  </p>
+
+  <p>
+    <%= form.label :notes %><br>
+    <%= form.text_area :notes %>
+  <p>
+
+  <p>
+    <%= form.label :tags %><br>
+    <%= form.text_field :tags %>
+  </p>
+
+  <p>
+    <%= form.label :source %><br>
+    <%= form.text_area :source %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+
+<style>
+.form input,
+.form textarea {
+  width: 100%
+}
+.form textarea {
+  min-height: 5rem;
+}
+</style>
+
+<%= link_to 'Cancel', recipes_path %>
