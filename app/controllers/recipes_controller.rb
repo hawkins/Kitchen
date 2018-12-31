@@ -110,6 +110,7 @@ class RecipesController < ApplicationController
           .permit(:title,
                   :content,
                   :ingredients,
+                  :notes,
                   :updated_at,
                   :created_at,
                   :user_id,
