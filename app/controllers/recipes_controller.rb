@@ -42,7 +42,7 @@ class RecipesController < ApplicationController
   end
 
   def index
-    @recipes = Recipe.all
+    redirect_to action: 'search'
   end
 
   def search
