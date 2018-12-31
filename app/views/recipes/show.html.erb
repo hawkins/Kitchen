@@ -32,15 +32,6 @@
 <% end %>
 
 <div>
-<strong>Instructions:</strong>
-<ol>
-  <% @recipe.content.split("\n").each do |line| %>
-    <li><%= line %></li>
-  <% end %>
-</ol>
-</div>
-
-<div>
 <strong>Ingredients:</strong>
 <ul>
   <% @recipe.ingredients.split("\n").each do |ing| %>
@@ -54,6 +45,15 @@
     </li>
   <% end %>
 </ul>
+</div>
+
+<div>
+<strong>Instructions:</strong>
+<ol>
+  <% @recipe.content.split("\n").each do |line| %>
+    <li><%= line %></li>
+  <% end %>
+</ol>
 </div>
 
 <style>
