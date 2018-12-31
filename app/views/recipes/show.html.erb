@@ -57,11 +57,11 @@
 </div>
 
 <% unless @recipe.notes.nil? || @recipe.notes.empty? %>
-  <div>
+  <div class="notes">
     <strong>Notes:</strong>
-    <p>
-      <%= @recipe.notes %>
-    </p>
+      <% @recipe.notes.split("\n").each do |line| %>
+        <p><%= line %></p>
+      <% end %>
   </div>
 <% end %>
 
@@ -73,6 +73,9 @@
   /* Spacing */
   line-height: 1.8;
   margin: 0 .1em;
+}
+.notes p {
+  padding-left: 40px;
 }
 </style>
 
